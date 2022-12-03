@@ -1,0 +1,28 @@
+
+
+/*.footer-concluidos > .container-botoes {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+/* Você vai precisar trocar a cor dos botões e alguns textos!
+  VERDE = "#2FBE34"
+  AMARELO = "#FF922E"
+  VERMELHO = "#FF3030"
+  CINZA = "#333333" 
+*/
+
+/* <PerguntaAberta>
+                {objeto.question}
+                <img src="../img/seta_virar.png" />
+            </PerguntaAberta> */
+/*<PerguntaAberta>
+                {objeto.answer}
+                <ConteinerBotão>
+                    <button>Não lembrei</button>
+                    <button>Quase não lembrei</button>
+                    <button>Zap!</button>
+                </ConteinerBotão>
+            </PerguntaAberta>)} */
