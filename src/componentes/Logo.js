@@ -4,7 +4,7 @@ import styled from "styled-components";
 function Logo() {
     return (
         <StyledLogoConteiner>
-            <img src="./img/logo.png"/>
+            <img src="../img/logo.png"/>
             <StyledLogoH1>ZAP RECALL</StyledLogoH1>
         </StyledLogoConteiner>
     )

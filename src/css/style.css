@@ -14,11 +14,11 @@
   CINZA = "#333333" 
 */
 
-/* <PerguntaAberta>
+/* <PerguntaAberta data-test="flashcard">
                 {objeto.question}
-                <img src="../img/seta_virar.png" />
+                <img data-test="turn-btn" src="../img/seta_virar.png" />
             </PerguntaAberta> */
-/*<PerguntaAberta>
+/*<PerguntaAberta data-test="flashcard">
                 {objeto.answer}
                 <ConteinerBotão>
                     <button>Não lembrei</button>
