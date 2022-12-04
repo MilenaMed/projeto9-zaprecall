@@ -2,57 +2,76 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react"
 
-function Flashcards() {
-    const cards = [
-        { number: "1", question: "O que é JSX?", answer: "Uma extensão da linguagem JavaScript" },
-        { number: "2", question: "O React é __", answer: "Uma biblioteca JavaScript para construção de interfaces" },
-        { number: "3", question: "Componentes devem iniciar com __", answer: "Letra maiúscula" },
-        { number: "4", question: "Podemos colocar __ dentro do JSX", answer: "expressões" },
-        { number: "5", question: "O ReactDOM nos ajuda __", answer: "Interagindo com a DOM para colocar componentes React na mesma" },
-        { number: "6", question: "Usamos o npm para __", answer: "Gerenciar os pacotes necessários e suas dependências" },
-        { number: "7", question: "Usamos props para __", answer: "Passar diferentes informações para componentes" },
-        { number: "8", question: "Usamos estado (state) para __", answer: "Dizer para o React quais informações quando atualizadas devem renderizar a tela novamente" }
+function Flashcards({setContador,contador}) {
+    let cards = [
+        { aberto:false, number: "1", question: "O que é JSX?", answer: "Uma extensão da linguagem JavaScript" },
+        { aberto:false, number: "2", question: "O React é __", answer: "Uma biblioteca JavaScript para construção de interfaces" },
+        { aberto:false, number: "3", question: "Componentes devem iniciar com __", answer: "Letra maiúscula" },
+        { aberto:false, number: "4", question: "Podemos colocar __ dentro do JSX", answer: "expressões" },
+        { aberto:false, number: "5", question: "O ReactDOM nos ajuda __", answer: "Interagindo com a DOM para colocar componentes React na mesma" },
+        { aberto:false, number: "6", question: "Usamos o npm para __", answer: "Gerenciar os pacotes necessários e suas dependências" },
+        { aberto:false, number: "7", question: "Usamos props para __", answer: "Passar diferentes informações para componentes" },
+        { aberto:false, number: "8", question: "Usamos estado (state) para __", answer: "Dizer para o React quais informações quando atualizadas devem renderizar a tela novamente" }
     ]
     const [aberto, setAberto] = useState(false);
     const [virado, setVirado] = useState(false);
+    const [allCards, setAllCards] = useState(cards);
 
-    function Jogar() {
+    function Jogar(obj) {
+        let updatedCards = allCards
+        updatedCards[obj.number - 1] = {...obj, aberto: true}
+        setAllCards(updatedCards);
         setAberto(true)
     }
 
     function Virar() {
         setVirado(true)
     }
-    function Respondeu(){
+    function Respondeu(obj){
+        let updatedCards = allCards
         setAberto(false)
         setVirado(false)
+        updatedCards[obj.number - 1] = {...obj, aberto: false}
+        setAllCards(updatedCards);
+        setContador(contador +1)
     }
 
     return (
         <>
-            {!aberto && cards.map((objeto) => (
-                <PerguntaFechada data-test="flashcard">
-                    <p data-test="flashcard-text" >Pergunta {objeto.number}</p>
-                    <img data-test="play-b" onClick={Jogar} src="../img/seta_play.png" />
-                </PerguntaFechada>))
+        {allCards.map((objeto) => {
+            if (!objeto.aberto) {
+                return (
+                    <PerguntaFechada data-test="flashcard">
+                        <p data-test="flashcard-text" >Pergunta {objeto.number}</p>
+                        <img data-test="play-b" onClick={() => Jogar(objeto)} src="../img/seta_play.png" />
+                    </PerguntaFechada>
+                )
             }
-            {!virado && aberto && cards.map((objeto) => (
-                <PerguntaAberta data-test="flashcard">
-                    {objeto.question}
-                    <img data-test="turn-btn" onClick={Virar} src="../img/seta_virar.png" />
-                </PerguntaAberta>))}
-
-            {virado && cards.map((objeto) => (
-                <PerguntaAberta data-test="flashcard">
-                    {objeto.answer}
-                    <ConteinerBotão>
-                        <button onClick={Respondeu} >Não lembrei</button>
-                        <button onClick={Respondeu} >Quase não lembrei</button>
-                        <button onClick={Respondeu}>Zap!</button>
-                    </ConteinerBotão>
-                </PerguntaAberta>))}
+        
+            else if (!virado && aberto) {
+                return (
+                    <PerguntaAberta data-test="flashcard">
+                        {objeto.question}
+                        <img data-test="turn-btn" onClick={Virar} src="../img/seta_virar.png" />
+                    </PerguntaAberta>)
+            }
+        
+            else if (virado) {
+                return (
+                    <PerguntaAberta data-test="flashcard">
+                        {objeto.answer}
+                        <ConteinerBotão>
+                            <button onClick={() => Respondeu(objeto)} >Não lembrei</button>
+                            <button onClick={() => Respondeu(objeto)}  >Quase não lembrei</button>
+                            <button onClick={() => Respondeu(objeto)} >Zap!</button>
+                        </ConteinerBotão>
+                    </PerguntaAberta>
+                )
+            }
+        })}
         </>
-    );
+        
+);
 }
 
 export default Flashcards

@@ -14,15 +14,29 @@
   CINZA = "#333333" 
 */
 
-/* <PerguntaAberta data-test="flashcard">
-                {objeto.question}
-                <img data-test="turn-btn" src="../img/seta_virar.png" />
-            </PerguntaAberta> */
-/*<PerguntaAberta data-test="flashcard">
-                {objeto.answer}
-                <ConteinerBotão>
-                    <button>Não lembrei</button>
-                    <button>Quase não lembrei</button>
-                    <button>Zap!</button>
-                </ConteinerBotão>
-            </PerguntaAberta>)} */
+
+/*
+<>
+{!aberto && cards.map((objeto) => (
+    <PerguntaFechada data-test="flashcard">
+        <p data-test="flashcard-text" >Pergunta {objeto.number}</p>
+        <img data-test="play-b" onClick={Jogar} src="../img/seta_play.png" />
+    </PerguntaFechada>))
+}
+{!virado && aberto && cards.map((objeto) => (
+    <PerguntaAberta data-test="flashcard">
+        {objeto.question}
+        <img data-test="turn-btn" onClick={Virar} src="../img/seta_virar.png" />
+    </PerguntaAberta>))
+}
+{virado && cards.map((objeto) => (
+    <PerguntaAberta data-test="flashcard">
+        {objeto.answer}
+        <ConteinerBotão>
+            <button onClick={Respondeu} >Não lembrei</button>
+            <button onClick={Respondeu} >Quase não lembrei</button>
+            <button onClick={Respondeu}>Zap!</button>
+        </ConteinerBotão>
+    </PerguntaAberta>))}
+</>
+*/

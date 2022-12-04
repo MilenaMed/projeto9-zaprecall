@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import cards from "./cards.js"
 
-function Rodape() {
+function Rodape({contador}) {
+
     return (
         <StyleRodape data-test="footer">
-            0/4 concluidos
+            {contador}/{cards.length} concluidos
         </StyleRodape>
     );
 }

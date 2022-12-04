@@ -3,14 +3,20 @@ import styled from "styled-components";
 import Logo from "./componentes/Logo";
 import Rodape from "./componentes/Rodape"
 import Flashcards from "./componentes/Flashcard";
+import {useState} from "react"
 
 function App() {
+  const [contador, setContador] = useState(0);
+
   return (
     <>
       <ScreenContainer>
         <Logo />
-        <Flashcards/>
-        <Rodape />
+        <Flashcards 
+        contador={contador}
+        setContador={setContador}/>
+        <Rodape
+          contador={contador} />
       </ScreenContainer>
     </>
   );
