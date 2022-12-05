@@ -5,7 +5,7 @@ import cards from "./cards.js"
 function Rodape({contador}) {
 
     return (
-        <StyleRodape data-test="footer">
+        <StyleRodape>
             <p data-test="footer"> {contador}/{cards.length} concluidos </p>
         </StyleRodape>
     );

@@ -26,14 +26,14 @@ function Flashcards({ setContador, contador }) {
     }
     function Respondeu1(objeto) {
         let updatedCards = allCards
-        updatedCards[objeto.number - 1] = { ...objeto, riscar:"line-through", img: iconeErro, color: "#FF3030", aberto: false }
+        updatedCards[objeto.number - 1] = { ...objeto, concluido: true, riscar: "line-through", img: iconeErro, color: "#FF3030", aberto: false }
         setAllCards(updatedCards);
         setDataTest("no-icon")
         Setar()
     }
     function Respondeu2(objeto) {
         let updatedCards = allCards
-        updatedCards[objeto.number - 1] = { ...objeto, riscar:"line-through", img: iconeQuase, color: "#FF922E", aberto: false }
+        updatedCards[objeto.number - 1] = { ...objeto, concluido: true, riscar: "line-through", img: iconeQuase, color: "#FF922E", aberto: false }
         setAllCards(updatedCards);
         setDataTest("partial-icon")
         Setar()
@@ -41,7 +41,7 @@ function Flashcards({ setContador, contador }) {
 
     function Respondeu3(objeto) {
         let updatedCards = allCards
-        updatedCards[objeto.number - 1] = { ...objeto, riscar:"line-through", img: iconeCerto,color: "#2FBE34", aberto: false }
+        updatedCards[objeto.number - 1] = { ...objeto, concluido: true, riscar: "line-through", img: iconeCerto, color: "#2FBE34", aberto: false }
         setAllCards(updatedCards);
         setDataTest("zap-icon")
         Setar()
@@ -60,11 +60,13 @@ function Flashcards({ setContador, contador }) {
                     return (
                         <PerguntaFechada cor={objeto.color} riscar={objeto.riscar}>
                             <p data-test="flashcard-text" >Pergunta {objeto.number}</p>
-                            <img data-test={dataTest} onClick={() => Jogar(objeto)} src={objeto.img} />
+                            <BotãoPlay data-test={dataTest} onClick={() => Jogar(objeto)} disabled={objeto.concluido}>
+                                <img src={objeto.img} />
+                            </BotãoPlay>
                         </PerguntaFechada>
                     )
                 }
-                else if (!virado && aberto) {
+                else if (!virado && objeto.aberto) {
                     return (
                         <PerguntaAberta data-test="flashcard">
                             <p>{objeto.question}</p>
@@ -113,6 +115,10 @@ const PerguntaFechada = styled.div`
                 text-decoration:${props => props.riscar};
       }
             `
+const BotãoPlay = styled.button`
+            border:none;
+            background-color: #FFFFFF;
+            `
 const PerguntaAberta = styled.div`
             width: 300px;
             height: 135px;
@@ -148,21 +154,21 @@ const ConteinerBotão = styled.div`
             bottom: 10px;
             right: 10px;
             `
-            const Botão = styled.button`
-                width:90px;
-                font-family: 'Recursive';
-                font-style: normal;
-                font-weight: 400;
-                font-size: 12px;
-                line-height: 14px;
-                color: #FFFFFF;
-                background: ${props => props.color};
-                border-radius: 5px;
-                border: 1px solid ${props => props.color};;
-                padding:5px;
-                display: flex;
-                align-items: center;
-                flex-direction: row;
-                justify-content: center;
-                text-align: center;
-            `
+const Botão = styled.button`
+    width:90px;
+    font-family: 'Recursive';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: #FFFFFF;
+    background: ${props => props.color};
+    border-radius: 5px;
+    border: 1px solid ${props => props.color};;
+    padding:5px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+         `
