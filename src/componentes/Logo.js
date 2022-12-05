@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import logo from '../img/logo.png'
 
 function Logo() {
     return (
         <StyledLogoConteiner>
-            <img src="../img/logo.png"/>
+            <img src={logo}/>
             <StyledLogoH1>ZAP RECALL</StyledLogoH1>
         </StyledLogoConteiner>
     )
