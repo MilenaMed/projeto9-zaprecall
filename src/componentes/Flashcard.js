@@ -1,29 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
-import setaPlay from '../img/seta_play.png'
 import setaVirar from '../img/seta_virar.png'
 import iconeCerto from '../img/icone_certo.png'
 import iconeErro from '../img/icone_erro.png'
 import iconeQuase from '../img/icone_quase.png'
+import cards from "./cards";
 
 function Flashcards({ setContador, contador }) {
-    let cards = [
-        { img: setaPlay, aberto: false, number: "1", question: "O que é JSX?", answer: "Uma extensão da linguagem JavaScript" },
-        { img: setaPlay, aberto: false, number: "2", question: "O React é __", answer: "Uma biblioteca JavaScript para construção de interfaces" },
-        { img: setaPlay, aberto: false, number: "3", question: "Componentes devem iniciar com __", answer: "Letra maiúscula" },
-        { img: setaPlay, aberto: false, number: "4", question: "Podemos colocar __ dentro do JSX", answer: "expressões" },
-        { img: setaPlay, aberto: false, number: "5", question: "O ReactDOM nos ajuda __", answer: "Interagindo com a DOM para colocar componentes React na mesma" },
-        { img: setaPlay, aberto: false, number: "6", question: "Usamos o npm para __", answer: "Gerenciar os pacotes necessários e suas dependências" },
-        { img: setaPlay, aberto: false, number: "7", question: "Usamos props para __", answer: "Passar diferentes informações para componentes" },
-        { img: setaPlay, aberto: false, number: "8", question: "Usamos estado (state) para __", answer: "Dizer para o React quais informações quando atualizadas devem renderizar a tela novamente" }
-    ]
+
     const [aberto, setAberto] = useState(false);
     const [virado, setVirado] = useState(false);
     const [allCards, setAllCards] = useState(cards);
+    const [dataTest, setDataTest] = useState("play-b");
 
     function Jogar(objeto) {
-        console.log(objeto.imagem)
         let updatedCards = allCards
         updatedCards[objeto.number - 1] = { ...objeto, aberto: true }
         setAllCards(updatedCards);
@@ -35,27 +26,30 @@ function Flashcards({ setContador, contador }) {
     }
     function Respondeu1(objeto) {
         let updatedCards = allCards
-        updatedCards[objeto.number - 1] = { ...objeto,img:iconeErro, aberto: false }
-        setAberto(false)
-        setVirado(false)
+        updatedCards[objeto.number - 1] = { ...objeto, riscar:"line-through", img: iconeErro, color: "#FF3030", aberto: false }
         setAllCards(updatedCards);
-        setContador(contador + 1)
+        setDataTest("no-icon")
+        Setar()
     }
     function Respondeu2(objeto) {
         let updatedCards = allCards
-        setAberto(false)
-        setVirado(false)
-        updatedCards[objeto.number - 1] = { ...objeto,objeto,img:iconeQuase, aberto: false }
+        updatedCards[objeto.number - 1] = { ...objeto, riscar:"line-through", img: iconeQuase, color: "#FF922E", aberto: false }
         setAllCards(updatedCards);
-        setContador(contador + 1)
+        setDataTest("partial-icon")
+        Setar()
     }
 
     function Respondeu3(objeto) {
         let updatedCards = allCards
+        updatedCards[objeto.number - 1] = { ...objeto, riscar:"line-through", img: iconeCerto,color: "#2FBE34", aberto: false }
+        setAllCards(updatedCards);
+        setDataTest("zap-icon")
+        Setar()
+    }
+
+    function Setar() {
         setAberto(false)
         setVirado(false)
-        updatedCards[objeto.number - 1] = { ...objeto,objeto,img:iconeCerto, aberto: false }
-        setAllCards(updatedCards);
         setContador(contador + 1)
     }
 
@@ -64,9 +58,9 @@ function Flashcards({ setContador, contador }) {
             {allCards.map((objeto) => {
                 if (!objeto.aberto) {
                     return (
-                        <PerguntaFechada data-test="flashcard">
+                        <PerguntaFechada cor={objeto.color} riscar={objeto.riscar}>
                             <p data-test="flashcard-text" >Pergunta {objeto.number}</p>
-                            <img data-test="play-b" disabled={objeto.img === setaPlay} onClick={() => Jogar(objeto)} src={objeto.img} />
+                            <img data-test={dataTest} onClick={() => Jogar(objeto)} src={objeto.img} />
                         </PerguntaFechada>
                     )
                 }
@@ -74,7 +68,7 @@ function Flashcards({ setContador, contador }) {
                     return (
                         <PerguntaAberta data-test="flashcard">
                             <p>{objeto.question}</p>
-                            <img data-test="turn-btn" disabled={objeto.disable === true} onClick={Virar} src={setaVirar} />
+                            <img data-test="turn-btn" onClick={Virar} src={setaVirar} />
                         </PerguntaAberta>)
                 }
 
@@ -83,9 +77,9 @@ function Flashcards({ setContador, contador }) {
                         <PerguntaAberta data-test="flashcard">
                             {objeto.answer}
                             <ConteinerBotão>
-                                <button data-test="no-btn" onClick={() => Respondeu1(objeto)} >Não lembrei</button>
-                                <button data-test="partial-btn" onClick={() => Respondeu2(objeto)}  >Quase não lembrei</button>
-                                <button data-test="zap-btn" onClick={() => Respondeu3(objeto)} >Zap!</button>
+                                <Botão data-test="no-btn" color="#FF3030" onClick={() => Respondeu1(objeto)} >Não lembrei</Botão>
+                                <Botão data-test="partial-btn" color="#FF922E" onClick={() => Respondeu2(objeto)}  >Quase não lembrei</Botão>
+                                <Botão data-test="zap-btn" color="#2FBE34" onClick={() => Respondeu3(objeto)} >Zap!</Botão>
                             </ConteinerBotão>
                         </PerguntaAberta>
                     )
@@ -109,14 +103,14 @@ const PerguntaFechada = styled.div`
             display: flex;
             align-items: center;
             justify-content: space-between;
-
-            p {
+                p {
                 font - family: 'Recursive';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 16px;
-            line-height: 19px;
-            color: #333333;
+                font-style: normal;
+                font-weight: 700;
+                font-size: 16px;
+                line-height: 19px;
+                color: ${props => props.cor};
+                text-decoration:${props => props.riscar};
       }
             `
 const PerguntaAberta = styled.div`
@@ -153,7 +147,8 @@ const ConteinerBotão = styled.div`
             position: absolute;
             bottom: 10px;
             right: 10px;
-                button{
+            `
+            const Botão = styled.button`
                 width:90px;
                 font-family: 'Recursive';
                 font-style: normal;
@@ -161,14 +156,13 @@ const ConteinerBotão = styled.div`
                 font-size: 12px;
                 line-height: 14px;
                 color: #FFFFFF;
-                background: blue;
+                background: ${props => props.color};
                 border-radius: 5px;
-                border: 1px solid blue;
+                border: 1px solid ${props => props.color};;
                 padding:5px;
                 display: flex;
                 align-items: center;
                 flex-direction: row;
                 justify-content: center;
                 text-align: center;
-                }
             `

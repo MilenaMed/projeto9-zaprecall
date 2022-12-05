@@ -6,7 +6,7 @@ function Rodape({contador}) {
 
     return (
         <StyleRodape data-test="footer">
-            {contador}/{cards.length} concluidos
+            <p data-test="footer"> {contador}/{cards.length} concluidos </p>
         </StyleRodape>
     );
 }
